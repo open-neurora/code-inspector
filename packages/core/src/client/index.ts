@@ -67,6 +67,18 @@ interface ActiveNode {
   class?: 'tooltip-top' | 'tooltip-bottom';
 }
 
+enum InspectorMode {
+  OPEN_EDITOR = 'open-editor',
+  COPY_PATH = 'copy-path',
+}
+
+interface FloatingBall {
+  x: number;
+  y: number;
+  isDragging: boolean;
+  dragOffset: { x: number; y: number };
+}
+
 const PopperWidth = 300;
 
 function nextTick() {
@@ -94,7 +106,20 @@ export class CodeInspectorComponent extends LitElement {
   target: string = '';
   @property()
   ip: string = 'localhost';
+  @property()
+  enableFloatingBall: boolean = true;
 
+  @state()
+  currentMode: InspectorMode = InspectorMode.OPEN_EDITOR;
+  @state()
+  floatingBall: FloatingBall = {
+    x: typeof window !== 'undefined' ? window.innerWidth - 70 : 100,
+    y: typeof window !== 'undefined' ? window.innerHeight / 2 : 100,
+    isDragging: false,
+    dragOffset: { x: 0, y: 0 },
+  };
+  @state()
+  showFloatingBall: boolean = true;
   @state()
   position = {
     top: 0,
@@ -532,22 +557,45 @@ export class CodeInspectorComponent extends LitElement {
 
   // 触发功能的处理
   trackCode = () => {
-    if (this.locate) {
-      // 请求本地服务端，打开vscode
-      if (this.sendType === 'xhr') {
-        this.sendXHR();
-      } else {
-        this.sendImg();
+    // 根据当前模式执行不同操作
+    if (this.enableFloatingBall) {
+      switch (this.currentMode) {
+        case InspectorMode.COPY_PATH:
+          // 复制路径模式 - 复制简洁的文件路径
+          const simplePath = `${this.element.path}:${this.element.line}:${this.element.column}`;
+          this.copyToClipboard(simplePath);
+          this.showCopyFeedback();
+          break;
+        case InspectorMode.OPEN_EDITOR:
+          // 打开编辑器模式（原有逻辑）
+          if (this.locate) {
+            if (this.sendType === 'xhr') {
+              this.sendXHR();
+            } else {
+              this.sendImg();
+            }
+          }
+          break;
       }
-    }
-    if (this.copy) {
-      const path = formatOpenPath(
-        this.element.path,
-        String(this.element.line),
-        String(this.element.column),
-        this.copy
-      );
-      this.copyToClipboard(path[0]);
+    } else {
+      // 原有逻辑（兼容旧版本）
+      if (this.locate) {
+        // 请求本地服务端，打开vscode
+        if (this.sendType === 'xhr') {
+          this.sendXHR();
+        } else {
+          this.sendImg();
+        }
+      }
+      if (this.copy) {
+        const path = formatOpenPath(
+          this.element.path,
+          String(this.element.line),
+          String(this.element.column),
+          this.copy
+        );
+        this.copyToClipboard(path[0]);
+      }
     }
     if (this.target) {
       window.open(this.buildTargetUrl(), '_blank');
@@ -567,6 +615,123 @@ export class CodeInspectorComponent extends LitElement {
       textarea.select();
       document.execCommand('copy');
       document.body.removeChild(textarea);
+    }
+  }
+
+  // \u663e\u793a\u590d\u5236\u6210\u529f\u53cd\u9988
+  showCopyFeedback = () => {
+    const feedback = document.createElement('div');
+    feedback.style.cssText = `
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0, 0, 0, 0.8);
+      color: white;
+      padding: 12px 24px;
+      border-radius: 4px;
+      z-index: 999999;
+      font-size: 14px;
+      pointer-events: none;
+      animation: fadeInOut 1.5s ease;
+    `;
+    feedback.textContent = '\u8def\u5f84\u5df2\u590d\u5236\u5230\u526a\u8d34\u677f';
+    
+    // \u6dfb\u52a0\u52a8\u753b\u6837\u5f0f
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes fadeInOut {
+        0% { opacity: 0; transform: translate(-50%, -50%) scale(0.9); }
+        20% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+        80% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+        100% { opacity: 0; transform: translate(-50%, -50%) scale(0.9); }
+      }
+    `;
+    document.head.appendChild(style);
+    document.body.appendChild(feedback);
+    
+    setTimeout(() => {
+      feedback.remove();
+      style.remove();
+    }, 1500);
+  }
+
+  // \u60ac\u6d6e\u7403\u6a21\u5f0f\u5207\u6362
+  toggleMode = () => {
+    this.currentMode = this.currentMode === InspectorMode.OPEN_EDITOR 
+      ? InspectorMode.COPY_PATH 
+      : InspectorMode.OPEN_EDITOR;
+    this.saveFloatingBallState();
+  }
+
+  // \u60ac\u6d6e\u7403\u62d6\u62fd\u5f00\u59cb
+  handleFloatingBallMouseDown = (e: MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    this.floatingBall = {
+      ...this.floatingBall,
+      isDragging: true,
+      dragOffset: {
+        x: e.clientX - this.floatingBall.x,
+        y: e.clientY - this.floatingBall.y,
+      },
+    };
+  }
+
+  // \u60ac\u6d6e\u7403\u62d6\u62fd\u79fb\u52a8
+  handleFloatingBallMove = (e: MouseEvent) => {
+    if (!this.floatingBall.isDragging) return;
+    
+    e.preventDefault();
+    e.stopPropagation();
+    
+    const newX = Math.max(0, Math.min(window.innerWidth - 50, e.clientX - this.floatingBall.dragOffset.x));
+    const newY = Math.max(0, Math.min(window.innerHeight - 50, e.clientY - this.floatingBall.dragOffset.y));
+    
+    this.floatingBall = {
+      ...this.floatingBall,
+      x: newX,
+      y: newY,
+    };
+  }
+
+  // \u60ac\u6d6e\u7403\u62d6\u62fd\u7ed3\u675f
+  handleFloatingBallMouseUp = (e: MouseEvent) => {
+    if (this.floatingBall.isDragging) {
+      e.preventDefault();
+      e.stopPropagation();
+      this.floatingBall = {
+        ...this.floatingBall,
+        isDragging: false,
+      };
+      this.saveFloatingBallState();
+    }
+  }
+
+  // \u4fdd\u5b58\u60ac\u6d6e\u7403\u72b6\u6001\u5230localStorage
+  saveFloatingBallState = () => {
+    localStorage.setItem('code-inspector-floating-ball', JSON.stringify({
+      x: this.floatingBall.x,
+      y: this.floatingBall.y,
+      mode: this.currentMode,
+    }));
+  }
+
+  // \u52a0\u8f7d\u60ac\u6d6e\u7403\u72b6\u6001
+  loadFloatingBallState = () => {
+    const saved = localStorage.getItem('code-inspector-floating-ball');
+    if (saved) {
+      try {
+        const state = JSON.parse(saved);
+        this.floatingBall = {
+          ...this.floatingBall,
+          x: state.x || this.floatingBall.x,
+          y: state.y || this.floatingBall.y,
+        };
+        this.currentMode = state.mode || InspectorMode.OPEN_EDITOR;
+      } catch (e) {
+        // Ignore parse errors
+      }
     }
   }
 
@@ -887,6 +1052,13 @@ export class CodeInspectorComponent extends LitElement {
     window.addEventListener('mouseup', this.handleMouseUp, true);
     window.addEventListener('touchend', this.handleMouseUp, true);
     window.addEventListener('contextmenu', this.handleContextMenu, true);
+    
+    // 悬浮球相关事件
+    if (this.enableFloatingBall) {
+      window.addEventListener('mousemove', this.handleFloatingBallMove, true);
+      window.addEventListener('mouseup', this.handleFloatingBallMouseUp, true);
+      this.loadFloatingBallState();
+    }
   }
 
   disconnectedCallback(): void {
@@ -901,6 +1073,12 @@ export class CodeInspectorComponent extends LitElement {
     window.removeEventListener('mouseup', this.handleMouseUp, true);
     window.removeEventListener('touchend', this.handleMouseUp, true);
     window.removeEventListener('contextmenu', this.handleContextMenu, true);
+    
+    // 移除悬浮球相关事件
+    if (this.enableFloatingBall) {
+      window.removeEventListener('mousemove', this.handleFloatingBallMove, true);
+      window.removeEventListener('mouseup', this.handleFloatingBallMouseUp, true);
+    }
   }
 
   renderNodeTree = (node: TreeNode): TemplateResult => html`
@@ -995,7 +1173,13 @@ export class CodeInspectorComponent extends LitElement {
             <div class="name-line">
               <div class="element-name">
                 <span class="element-title">&lt;${this.element.name}&gt;</span>
-                <span class="element-tip">click to open editor</span>
+                <span class="element-tip">${
+                  this.enableFloatingBall 
+                    ? (this.currentMode === InspectorMode.OPEN_EDITOR 
+                        ? 'click to open editor' 
+                        : 'click to copy path')
+                    : 'click to open editor'
+                }</span>
               </div>
             </div>
             <div class="path-line">
@@ -1149,6 +1333,62 @@ export class CodeInspectorComponent extends LitElement {
       >
         ${this.activeNode.content}
       </div>
+      ${this.enableFloatingBall && this.showFloatingBall ? html`
+        <div
+          id="code-inspector-floating-ball"
+          class="floating-ball ${this.floatingBall.isDragging ? 'dragging' : ''}"
+          style=${styleMap({
+            position: 'fixed',
+            left: `${this.floatingBall.x}px`,
+            top: `${this.floatingBall.y}px`,
+            width: '50px',
+            height: '50px',
+            borderRadius: '50%',
+            background: this.currentMode === InspectorMode.OPEN_EDITOR 
+              ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
+              : 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+            boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+            cursor: this.floatingBall.isDragging ? 'grabbing' : 'grab',
+            zIndex: '9999999999',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            userSelect: 'none',
+            transition: this.floatingBall.isDragging ? 'none' : 'background 0.3s ease',
+          })}
+          @mousedown="${this.handleFloatingBallMouseDown}"
+          @click="${(e: MouseEvent) => {
+            if (!this.floatingBall.isDragging) {
+              e.stopPropagation();
+              this.toggleMode();
+            }
+          }}"
+        >
+          <div style=${styleMap({
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            color: 'white',
+            fontSize: '10px',
+            fontWeight: 'bold',
+            pointerEvents: 'none',
+          })}>
+            ${this.currentMode === InspectorMode.OPEN_EDITOR ? html`
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+              </svg>
+              <span style="margin-top: 2px">编辑</span>
+            ` : html`
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+              </svg>
+              <span style="margin-top: 2px">复制</span>
+            `}
+          </div>
+        </div>
+      ` : ''}
     `;
   }
 

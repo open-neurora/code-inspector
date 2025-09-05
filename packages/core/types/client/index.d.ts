@@ -35,6 +35,19 @@ interface ActiveNode {
     visibility?: 'visible' | 'hidden';
     class?: 'tooltip-top' | 'tooltip-bottom';
 }
+declare enum InspectorMode {
+    OPEN_EDITOR = "open-editor",
+    COPY_PATH = "copy-path"
+}
+interface FloatingBall {
+    x: number;
+    y: number;
+    isDragging: boolean;
+    dragOffset: {
+        x: number;
+        y: number;
+    };
+}
 export declare class CodeInspectorComponent extends LitElement {
     hotKeys: string;
     port: number;
@@ -45,6 +58,10 @@ export declare class CodeInspectorComponent extends LitElement {
     copy: boolean | string;
     target: string;
     ip: string;
+    enableFloatingBall: boolean;
+    currentMode: InspectorMode;
+    floatingBall: FloatingBall;
+    showFloatingBall: boolean;
     position: {
         top: number;
         right: number;
@@ -135,6 +152,13 @@ export declare class CodeInspectorComponent extends LitElement {
     buildTargetUrl: () => string;
     trackCode: () => void;
     copyToClipboard(text: string): void;
+    showCopyFeedback: () => void;
+    toggleMode: () => void;
+    handleFloatingBallMouseDown: (e: MouseEvent) => void;
+    handleFloatingBallMove: (e: MouseEvent) => void;
+    handleFloatingBallMouseUp: (e: MouseEvent) => void;
+    saveFloatingBallState: () => void;
+    loadFloatingBallState: () => void;
     handleDrag: (e: MouseEvent | TouchEvent) => void;
     isSamePositionNode: (node1: HTMLElement, node2: HTMLElement) => boolean;
     handleMouseMove: (e: MouseEvent | TouchEvent) => Promise<void>;
