@@ -13,8 +13,8 @@ export default defineConfig({
     emptyOutDir: false,
     rollupOptions: {
       external: [
-        '@code-inspector/core',
-        '@code-inspector/vite',
+        '@neurora/code-inspector-core',
+        '@neurora/code-inspector-vite',
         '@code-inspector/webpack',
         '@code-inspector/esbuild',
         '@code-inspector/turbopack',

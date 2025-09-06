@@ -1,4 +1,4 @@
-import { ViteCodeInspectorPlugin } from '@code-inspector/vite';
+import { ViteCodeInspectorPlugin } from '@neurora/code-inspector-vite';
 import WebpackCodeInspectorPlugin from '@code-inspector/webpack';
 import { EsbuildCodeInspectorPlugin } from '@code-inspector/esbuild';
 import { TurbopackCodeInspectorPlugin } from '@code-inspector/turbopack';
@@ -8,7 +8,7 @@ import {
   fileURLToPath,
   getEnvVariable,
   resetFileRecord,
-} from '@code-inspector/core';
+} from '@neurora/code-inspector-core';
 import chalk from 'chalk';
 import path, { dirname } from 'path';
 

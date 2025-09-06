@@ -147,7 +147,7 @@ export function getWebComponentCode(options: CodeOptions, port: number) {
     ip = false,
     bundler,
   } = options || ({} as CodeOptions);
-  const { locate = true, copy = false, target = '' } = behavior;
+  const { locate = true, copy = false, target = '', enableFloatingBall = true } = behavior;
   return `
 ;(function (){
   if (typeof window !== 'undefined') {
@@ -164,6 +164,7 @@ export function getWebComponentCode(options: CodeOptions, port: number) {
       inspector.copy = ${typeof copy === 'string' ? `'${copy}'` : !!copy};
       inspector.target = '${target}';
       inspector.ip = '${getIP(ip)}';
+      inspector.enableFloatingBall = !!${enableFloatingBall};
       document.documentElement.append(inspector);
     }
   }

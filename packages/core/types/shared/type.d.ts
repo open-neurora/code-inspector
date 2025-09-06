@@ -6,6 +6,8 @@ export type Behavior = {
     locate?: boolean;
     copy?: boolean | string;
     target?: string;
+    enable?: boolean;
+    enableFloatingBall?: boolean;
 };
 export type RecordInfo = {
     port: number;

@@ -558,7 +558,7 @@ export class CodeInspectorComponent extends LitElement {
   // 触发功能的处理
   trackCode = () => {
     // 根据当前模式执行不同操作
-    if (this.enableFloatingBall) {
+    if (this.enableFloatingBall !== false) {
       switch (this.currentMode) {
         case InspectorMode.COPY_PATH:
           // 复制路径模式 - 复制简洁的文件路径
@@ -1054,7 +1054,7 @@ export class CodeInspectorComponent extends LitElement {
     window.addEventListener('contextmenu', this.handleContextMenu, true);
     
     // 悬浮球相关事件
-    if (this.enableFloatingBall) {
+    if (this.enableFloatingBall !== false) {
       window.addEventListener('mousemove', this.handleFloatingBallMove, true);
       window.addEventListener('mouseup', this.handleFloatingBallMouseUp, true);
       this.loadFloatingBallState();
@@ -1075,7 +1075,7 @@ export class CodeInspectorComponent extends LitElement {
     window.removeEventListener('contextmenu', this.handleContextMenu, true);
     
     // 移除悬浮球相关事件
-    if (this.enableFloatingBall) {
+    if (this.enableFloatingBall !== false) {
       window.removeEventListener('mousemove', this.handleFloatingBallMove, true);
       window.removeEventListener('mouseup', this.handleFloatingBallMouseUp, true);
     }
@@ -1333,7 +1333,7 @@ export class CodeInspectorComponent extends LitElement {
       >
         ${this.activeNode.content}
       </div>
-      ${this.enableFloatingBall && this.showFloatingBall ? html`
+      ${(this.enableFloatingBall !== false) && this.showFloatingBall ? html`
         <div
           id="code-inspector-floating-ball"
           class="floating-ball ${this.floatingBall.isDragging ? 'dragging' : ''}"

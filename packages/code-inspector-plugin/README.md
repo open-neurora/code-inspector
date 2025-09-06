@@ -22,6 +22,15 @@ Click the element on the page, it can automatically open the code editor and pos
 
 ![code-inspector](https://cdn.jsdelivr.net/gh/zh-lx/static-img/code-inspector/demo.gif)
 
+### ✨ New Feature: Floating Ball Mode
+
+The plugin now supports a **floating ball interface** for easier interaction:
+
+- **Draggable floating ball** - Position it anywhere on your screen
+- **Mode switching** - Toggle between "Copy Path" and "Open Editor" modes with a single click
+- **Visual feedback** - Different colors and tooltips for each mode
+- **Persistent state** - Remembers your preferred position and mode across sessions
+
 ## 💻 Try it out online
 
 - [vue online demo](https://stackblitz.com/edit/vitejs-vite-4pseos?file=vite.config.ts)
@@ -57,7 +66,7 @@ The following are which compilers, web frameworks and editors we supported now:
 
 ## 🚀 Install
 
-```perl
+```bash
 npm i code-inspector-plugin -D
 # or
 yarn add code-inspector-plugin -D
@@ -65,9 +74,44 @@ yarn add code-inspector-plugin -D
 pnpm add code-inspector-plugin -D
 ```
 
+### Alternative Package (with Floating Ball Feature)
+
+For the latest features including the floating ball interface:
+
+```bash
+npm i @neurora/code-inspector-plugin -D
+# or
+yarn add @neurora/code-inspector-plugin -D
+# or
+pnpm add @neurora/code-inspector-plugin -D
+```
+
 ## 🌈 Usage
 
 Please check here for more usage information: [code-inspector-plugin configuration](https://inspector.fe-dev.cn/en/guide/start.html#configuration)
+
+### Quick Setup with Floating Ball
+
+To enable the floating ball feature, add the `behavior` configuration:
+
+```js
+// vite.config.js
+import { defineConfig } from 'vite';
+import { codeInspectorPlugin } from 'code-inspector-plugin';
+// or use @neurora/code-inspector-plugin for floating ball feature
+
+export default defineConfig({
+  plugins: [
+    codeInspectorPlugin({
+      bundler: 'vite',
+      behavior: {
+        enable: true,
+        enableFloatingBall: true  // Enable floating ball mode
+      }
+    }),
+  ],
+});
+```
 
 - 1.Configuring Build Tools
 
@@ -82,6 +126,10 @@ Please check here for more usage information: [code-inspector-plugin configurati
     plugins: [
       codeInspectorPlugin({
         bundler: 'webpack',
+        behavior: {
+          enable: true,
+          enableFloatingBall: true  // Optional: enable floating ball
+        }
       }),
     ],
   });
@@ -101,6 +149,10 @@ Please check here for more usage information: [code-inspector-plugin configurati
     plugins: [
       codeInspectorPlugin({
         bundler: 'vite',
+        behavior: {
+          enable: true,
+          enableFloatingBall: true  // Optional: enable floating ball
+        }
       }),
     ],
   });
@@ -120,6 +172,10 @@ Please check here for more usage information: [code-inspector-plugin configurati
     plugins: [
       codeInspectorPlugin({
         bundler: 'rspack',
+        behavior: {
+          enable: true,
+          enableFloatingBall: true  // Optional: enable floating ball
+        }
       }),
       // other plugins...
     ],
@@ -142,6 +198,10 @@ Please check here for more usage information: [code-inspector-plugin configurati
         plugins: [
           codeInspectorPlugin({
             bundler: 'rspack',
+            behavior: {
+              enable: true,
+              enableFloatingBall: true  // Optional: enable floating ball
+            }
           }),
         ],
       },
@@ -162,7 +222,14 @@ Please check here for more usage information: [code-inspector-plugin configurati
   esbuild.build({
     // other configs...
     // [注意] esbuild 中使用时，dev 函数的返回值需自己根据环境判断，本地开发的环境返回 true，线上打包返回 false
-    plugins: [codeInspectorPlugin({ bundler: 'esbuild', dev: () => true })],
+    plugins: [codeInspectorPlugin({ 
+      bundler: 'esbuild', 
+      dev: () => true,
+      behavior: {
+        enable: true,
+        enableFloatingBall: true  // Optional: enable floating ball
+      }
+    })],
   });
   ```
 
@@ -180,6 +247,10 @@ Please check here for more usage information: [code-inspector-plugin configurati
     vitePlugins: [
       codeInspectorPlugin({
         bundler: 'vite',
+        behavior: {
+          enable: true,
+          enableFloatingBall: true  // Optional: enable floating ball
+        }
       }),
       // ...other code
     ],
@@ -201,6 +272,10 @@ Please check here for more usage information: [code-inspector-plugin configurati
       config.plugin('code-inspector-plugin').use(
         codeInspectorPlugin({
           bundler: 'webpack',
+          behavior: {
+            enable: true,
+            enableFloatingBall: true  // Optional: enable floating ball
+          }
         })
       );
     },
@@ -221,7 +296,13 @@ Please check here for more usage information: [code-inspector-plugin configurati
     // https://nuxt.com/docs/api/configuration/nuxt-config
     export default defineNuxtConfig({
       vite: {
-        plugins: [codeInspectorPlugin({ bundler: 'vite' })],
+        plugins: [codeInspectorPlugin({ 
+          bundler: 'vite',
+          behavior: {
+            enable: true,
+            enableFloatingBall: true  // Optional: enable floating ball
+          }
+        })],
       },
     });
     ```
@@ -235,7 +316,13 @@ Please check here for more usage information: [code-inspector-plugin configurati
     export default {
       build: {
         extend(config) {
-          config.plugins.push(codeInspectorPlugin({ bundler: 'webpack' }));
+          config.plugins.push(codeInspectorPlugin({ 
+            bundler: 'webpack',
+            behavior: {
+              enable: true,
+              enableFloatingBall: true  // Optional: enable floating ball
+            }
+          }));
           return config;
         },
       },
@@ -255,7 +342,13 @@ Please check here for more usage information: [code-inspector-plugin configurati
 
     const nextConfig = {
       webpack: (config, { dev, isServer }) => {
-        config.plugins.push(codeInspectorPlugin({ bundler: 'webpack' }));
+        config.plugins.push(codeInspectorPlugin({ 
+          bundler: 'webpack',
+          behavior: {
+            enable: true,
+            enableFloatingBall: true  // Optional: enable floating ball
+          }
+        }));
         return config;
       },
     };
@@ -274,6 +367,10 @@ Please check here for more usage information: [code-inspector-plugin configurati
         turbo: {
           rules: codeInspectorPlugin({
             bundler: 'turbopack',
+            behavior: {
+              enable: true,
+              enableFloatingBall: true  // Optional: enable floating ball
+            }
           }),
         },
       },
@@ -293,6 +390,10 @@ Please check here for more usage information: [code-inspector-plugin configurati
       turbopack: {
         rules: codeInspectorPlugin({
           bundler: 'turbopack',
+          behavior: {
+            enable: true,
+            enableFloatingBall: true  // Optional: enable floating ball
+          }
         }),
       },
     };
@@ -317,6 +418,10 @@ Please check here for more usage information: [code-inspector-plugin configurati
         memo.plugin('code-inspector-plugin').use(
           codeInspectorPlugin({
             bundler: 'webpack',
+            behavior: {
+              enable: true,
+              enableFloatingBall: true  // Optional: enable floating ball
+            }
           })
         );
       },
@@ -337,6 +442,10 @@ Please check here for more usage information: [code-inspector-plugin configurati
         plugins: [
           codeInspectorPlugin({
             bundler: 'mako',
+            behavior: {
+              enable: true,
+              enableFloatingBall: true  // Optional: enable floating ball
+            }
           }),
         ],
       },
@@ -355,7 +464,13 @@ Please check here for more usage information: [code-inspector-plugin configurati
 
   export default defineConfig({
     vite: {
-      plugins: [codeInspectorPlugin({ bundler: 'vite' })],
+      plugins: [codeInspectorPlugin({ 
+        bundler: 'vite',
+        behavior: {
+          enable: true,
+          enableFloatingBall: true  // Optional: enable floating ball
+        }
+      })],
     },
   });
   ```
@@ -366,6 +481,13 @@ Please check here for more usage information: [code-inspector-plugin configurati
 
   Now you can enjoy using it!~
 
+  **With floating ball mode enabled:**
+  - A draggable floating ball appears on your page
+  - Click the ball to switch between "Copy Path" and "Open Editor" modes
+  - In "Copy Path" mode: Click any element to copy its source path
+  - In "Open Editor" mode: Click any element to open it in your IDE
+
+  **Traditional keyboard mode:**
   When pressing the combination keys on the page, moving the mouse over the page will display a mask layer on the DOM with relevant information. Clicking will automatically open the IDE and position the cursor to the corresponding code location. (The default combination keys for Mac are `Option + Shift`; for Windows, it's `Alt + Shift`, and the browser console will output related combination key prompts)
 
   <img src="https://cdn.jsdelivr.net/gh/zh-lx/static-img/code-inspector/console-success.png" width="700px" />
