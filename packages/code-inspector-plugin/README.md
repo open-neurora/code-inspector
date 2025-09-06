@@ -26,10 +26,15 @@ Click the element on the page, it can automatically open the code editor and pos
 
 The plugin now supports a **floating ball interface** for easier interaction:
 
-- **Draggable floating ball** - Position it anywhere on your screen
-- **Mode switching** - Toggle between "Copy Path" and "Open Editor" modes with a single click
-- **Visual feedback** - Different colors and tooltips for each mode
-- **Persistent state** - Remembers your preferred position and mode across sessions
+- 🎯 **Draggable floating ball** - Position it anywhere on your screen
+- 🔄 **Mode switching** - Toggle between "Copy Path" and "Open Editor" modes with a single click  
+- 🎨 **Visual feedback** - Different colors and tooltips for each mode
+- 💾 **Persistent state** - Remembers your preferred position and mode across sessions
+
+<div align="center">
+  <img src="https://user-images.githubusercontent.com/73059627/floating-ball-demo.gif" width="600px" alt="Floating Ball Demo" />
+  <p><i>Floating ball interface in action</i></p>
+</div>
 
 ## 💻 Try it out online
 
@@ -45,27 +50,18 @@ The plugin now supports a **floating ball interface** for easier interaction:
 
 The following are which compilers, web frameworks and editors we supported now:
 
-- The following bundlers are currently supported:<br />
-  ✅ webpack<br />
-  ✅ vite<br />
-  ✅ rspack / rsbuild<br />
-  ✅ farm<br />
-  ✅ esbuild<br />
-  ✅ turbopack<br />
-  ✅ mako<br />
-- The following Web frameworks are currently supported:<br />
-  ✅ vue2 / vue3 / nuxt<br />
-  ✅ react / nextjs / umijs<br />
-  ✅ preact<br />
-  ✅ solid<br />
-  ✅ qwik<br />
-  ✅ svelte<br />
-  ✅ astro<br />
-- The following code editors are currently supported:<br />
+- **Bundlers**:  
+  ✅ webpack | ✅ vite | ✅ rspack | ✅ rsbuild | ✅ farm | ✅ esbuild | ✅ turbopack | ✅ mako
+
+- **Web Frameworks**:  
+  ✅ vue2 | ✅ vue3 | ✅ nuxt | ✅ react | ✅ nextjs | ✅ umijs | ✅ preact | ✅ solid | ✅ qwik | ✅ svelte | ✅ astro
+
+- **Code Editors**:  
   [VSCode](https://code.visualstudio.com/) | [Cursor](https://www.cursor.com/) | [Windsurf](https://codeium.com/windsurf) | [WebStorm](https://www.jetbrains.com/webstorm/) | [Atom](https://atom.io/) | [HBuilderX](https://www.dcloud.io/hbuilderx.html) | [PhpStorm](https://www.jetbrains.com/phpstorm/) | [PyCharm](https://www.jetbrains.com/pycharm/) | [IntelliJ IDEA](https://www.jetbrains.com/idea/) | [and Others](https://inspector.fe-dev.cn/en/guide/ide.html)
 
 ## 🚀 Install
 
+### Standard Version
 ```bash
 npm i code-inspector-plugin -D
 # or
@@ -74,8 +70,7 @@ yarn add code-inspector-plugin -D
 pnpm add code-inspector-plugin -D
 ```
 
-### Alternative Package (with Floating Ball Feature)
-
+### Enhanced Version (with Floating Ball Feature)
 For the latest features including the floating ball interface:
 
 ```bash
@@ -88,8 +83,6 @@ pnpm add @neurora/code-inspector-plugin -D
 
 ## 🌈 Usage
 
-Please check here for more usage information: [code-inspector-plugin configuration](https://inspector.fe-dev.cn/en/guide/start.html#configuration)
-
 ### Quick Setup with Floating Ball
 
 To enable the floating ball feature, add the `behavior` configuration:
@@ -98,7 +91,7 @@ To enable the floating ball feature, add the `behavior` configuration:
 // vite.config.js
 import { defineConfig } from 'vite';
 import { codeInspectorPlugin } from 'code-inspector-plugin';
-// or use @neurora/code-inspector-plugin for floating ball feature
+// or use @neurora/code-inspector-plugin for guaranteed floating ball support
 
 export default defineConfig({
   plugins: [
@@ -113,388 +106,427 @@ export default defineConfig({
 });
 ```
 
-- 1.Configuring Build Tools
+### Configuration Examples
 
-  <details>
-    <summary>Click to expand configuration about: <b>webpack</b></summary>
+<details>
+<summary>Click to expand configuration for: <b>webpack</b></summary>
 
-  ```js
-  // webpack.config.js
-  const { codeInspectorPlugin } = require('code-inspector-plugin');
+```js
+// webpack.config.js
+const { codeInspectorPlugin } = require('code-inspector-plugin');
 
-  module.exports = () => ({
-    plugins: [
+module.exports = () => ({
+  plugins: [
+    codeInspectorPlugin({
+      bundler: 'webpack',
+      behavior: {
+        enable: true,
+        enableFloatingBall: true  // Optional: enable floating ball
+      }
+    }),
+  ],
+});
+```
+
+</details>
+
+<details>
+<summary>Click to expand configuration for: <b>vite</b></summary>
+
+```js
+// vite.config.js
+import { defineConfig } from 'vite';
+import { codeInspectorPlugin } from 'code-inspector-plugin';
+
+export default defineConfig({
+  plugins: [
+    codeInspectorPlugin({
+      bundler: 'vite',
+      behavior: {
+        enable: true,
+        enableFloatingBall: true  // Optional: enable floating ball
+      }
+    }),
+  ],
+});
+```
+
+</details>
+
+<details>
+<summary>Click to expand configuration for: <b>rspack</b></summary>
+
+```js
+// rspack.config.js
+const { codeInspectorPlugin } = require('code-inspector-plugin');
+
+module.exports = {
+  plugins: [
+    codeInspectorPlugin({
+      bundler: 'rspack',
+      behavior: {
+        enable: true,
+        enableFloatingBall: true  // Optional: enable floating ball
+      }
+    }),
+  ],
+};
+```
+
+</details>
+
+<details>
+<summary>Click to expand configuration for: <b>rsbuild</b></summary>
+
+```js
+// rsbuild.config.js
+const { codeInspectorPlugin } = require('code-inspector-plugin');
+
+module.exports = {
+  tools: {
+    rspack: {
+      plugins: [
+        codeInspectorPlugin({
+          bundler: 'rspack',
+          behavior: {
+            enable: true,
+            enableFloatingBall: true  // Optional: enable floating ball
+          }
+        }),
+      ],
+    },
+  },
+};
+```
+
+</details>
+
+<details>
+<summary>Click to expand configuration for: <b>esbuild</b></summary>
+
+```js
+// esbuild.config.js
+const esbuild = require('esbuild');
+const { codeInspectorPlugin } = require('code-inspector-plugin');
+
+esbuild.build({
+  plugins: [codeInspectorPlugin({ 
+    bundler: 'esbuild', 
+    dev: () => true,  // Return true in dev, false in production
+    behavior: {
+      enable: true,
+      enableFloatingBall: true  // Optional: enable floating ball
+    }
+  })],
+});
+```
+
+</details>
+
+<details>
+<summary>Click to expand configuration for: <b>farm</b></summary>
+
+```js
+// farm.config.js
+import { defineConfig } from '@farmfe/core';
+import { codeInspectorPlugin } from 'code-inspector-plugin';
+
+export default defineConfig({
+  vitePlugins: [
+    codeInspectorPlugin({
+      bundler: 'vite',
+      behavior: {
+        enable: true,
+        enableFloatingBall: true  // Optional: enable floating ball
+      }
+    }),
+  ],
+});
+```
+
+</details>
+
+<details>
+<summary>Click to expand configuration for: <b>vue-cli</b></summary>
+
+```js
+// vue.config.js
+const { codeInspectorPlugin } = require('code-inspector-plugin');
+
+module.exports = {
+  chainWebpack: (config) => {
+    config.plugin('code-inspector-plugin').use(
       codeInspectorPlugin({
         bundler: 'webpack',
         behavior: {
           enable: true,
           enableFloatingBall: true  // Optional: enable floating ball
         }
-      }),
-    ],
-  });
-  ```
+      })
+    );
+  },
+};
+```
 
-  </details>
+</details>
 
-  <details>
-    <summary>Click to expand configuration about: <b>vite</b></summary>
+<details>
+<summary>Click to expand configuration for: <b>nuxt</b></summary>
 
-  ```js
-  // vite.config.js
-  import { defineConfig } from 'vite';
-  import { codeInspectorPlugin } from 'code-inspector-plugin';
+**For nuxt3.x:**
 
-  export default defineConfig({
-    plugins: [
-      codeInspectorPlugin({
-        bundler: 'vite',
-        behavior: {
-          enable: true,
-          enableFloatingBall: true  // Optional: enable floating ball
-        }
-      }),
-    ],
-  });
-  ```
+```js
+// nuxt.config.js
+import { codeInspectorPlugin } from 'code-inspector-plugin';
 
-  </details>
-
-  <details>
-    <summary>Click to expand configuration about: <b>rspack</b></summary>
-
-  ```js
-  // rspack.config.js
-  const { codeInspectorPlugin } = require('code-inspector-plugin');
-
-  module.exports = {
-    // other config...
-    plugins: [
-      codeInspectorPlugin({
-        bundler: 'rspack',
-        behavior: {
-          enable: true,
-          enableFloatingBall: true  // Optional: enable floating ball
-        }
-      }),
-      // other plugins...
-    ],
-  };
-  ```
-
-  </details>
-
-  <details>
-    <summary>Click to expand configuration about: <b>rsbuild</b></summary>
-
-  ```js
-  // rsbuild.config.js
-  const { codeInspectorPlugin } = require('code-inspector-plugin');
-
-  module.exports = {
-    // other config...
-    tools: {
-      rspack: {
-        plugins: [
-          codeInspectorPlugin({
-            bundler: 'rspack',
-            behavior: {
-              enable: true,
-              enableFloatingBall: true  // Optional: enable floating ball
-            }
-          }),
-        ],
-      },
-    },
-  };
-  ```
-
-  </details>
-
-  <details>
-    <summary>Click to expand configuration about: <b>esbuild</b></summary>
-
-  ```js
-  // esbuild.config.js
-  const esbuild = require('esbuild');
-  const { codeInspectorPlugin } = require('code-inspector-plugin');
-
-  esbuild.build({
-    // other configs...
-    // [注意] esbuild 中使用时，dev 函数的返回值需自己根据环境判断，本地开发的环境返回 true，线上打包返回 false
+export default defineNuxtConfig({
+  vite: {
     plugins: [codeInspectorPlugin({ 
-      bundler: 'esbuild', 
-      dev: () => true,
+      bundler: 'vite',
       behavior: {
         enable: true,
         enableFloatingBall: true  // Optional: enable floating ball
       }
     })],
-  });
-  ```
+  },
+});
+```
 
-  </details>
+**For nuxt2.x:**
 
-  <details>
-    <summary>Click to expand configuration about: <b>farm</b></summary>
+```js
+// nuxt.config.js
+import { codeInspectorPlugin } from 'code-inspector-plugin';
 
-  ```js
-  // farm.config.js
-  import { defineConfig } from '@farmfe/core';
-  import { codeInspectorPlugin } from 'code-inspector-plugin';
+export default {
+  build: {
+    extend(config) {
+      config.plugins.push(codeInspectorPlugin({ 
+        bundler: 'webpack',
+        behavior: {
+          enable: true,
+          enableFloatingBall: true  // Optional: enable floating ball
+        }
+      }));
+      return config;
+    },
+  },
+};
+```
 
-  export default defineConfig({
-    vitePlugins: [
-      codeInspectorPlugin({
-        bundler: 'vite',
+</details>
+
+<details>
+<summary>Click to expand configuration for: <b>next.js</b></summary>
+
+**For next.js(<= 14.x):**
+
+```js
+// next.config.js
+const { codeInspectorPlugin } = require('code-inspector-plugin');
+
+const nextConfig = {
+  webpack: (config, { dev, isServer }) => {
+    config.plugins.push(codeInspectorPlugin({ 
+      bundler: 'webpack',
+      behavior: {
+        enable: true,
+        enableFloatingBall: true  // Optional: enable floating ball
+      }
+    }));
+    return config;
+  },
+};
+
+module.exports = nextConfig;
+```
+
+**For next.js(15.0.x ~ 15.2.x):**
+
+```js
+import type { NextConfig } from 'next';
+import { codeInspectorPlugin } from 'code-inspector-plugin';
+
+const nextConfig: NextConfig = {
+  experimental: {
+    turbo: {
+      rules: codeInspectorPlugin({
+        bundler: 'turbopack',
         behavior: {
           enable: true,
           enableFloatingBall: true  // Optional: enable floating ball
         }
       }),
-      // ...other code
-    ],
-  });
-  ```
-
-  </details>
-
-  <details>
-    <summary>Click to expand configuration about: <b>vue-cli</b></summary>
-
-  ```js
-  // vue.config.js
-  const { codeInspectorPlugin } = require('code-inspector-plugin');
-
-  module.exports = {
-    // ...other code
-    chainWebpack: (config) => {
-      config.plugin('code-inspector-plugin').use(
-        codeInspectorPlugin({
-          bundler: 'webpack',
-          behavior: {
-            enable: true,
-            enableFloatingBall: true  // Optional: enable floating ball
-          }
-        })
-      );
     },
-  };
-  ```
+  },
+};
 
-  </details>
+export default nextConfig;
+```
 
-  <details>
-    <summary>Click to expand configuration about: <b>nuxt</b></summary>
+**For next.js(>= 15.3.x):**
 
-  - For nuxt3.x :
+```js
+// next.config.js
+import type { NextConfig } from 'next';
+import { codeInspectorPlugin } from 'code-inspector-plugin';
 
-    ```js
-    // nuxt.config.js
-    import { codeInspectorPlugin } from 'code-inspector-plugin';
+const nextConfig: NextConfig = {
+  turbopack: {
+    rules: codeInspectorPlugin({
+      bundler: 'turbopack',
+      behavior: {
+        enable: true,
+        enableFloatingBall: true  // Optional: enable floating ball
+      }
+    }),
+  },
+};
 
-    // https://nuxt.com/docs/api/configuration/nuxt-config
-    export default defineNuxtConfig({
-      vite: {
-        plugins: [codeInspectorPlugin({ 
-          bundler: 'vite',
-          behavior: {
-            enable: true,
-            enableFloatingBall: true  // Optional: enable floating ball
-          }
-        })],
-      },
-    });
-    ```
+export default nextConfig;
+```
 
-  - For nuxt2.x :
+</details>
 
-    ```js
-    // nuxt.config.js
-    import { codeInspectorPlugin } from 'code-inspector-plugin';
+<details>
+<summary>Click to expand configuration for: <b>umi.js</b></summary>
 
-    export default {
-      build: {
-        extend(config) {
-          config.plugins.push(codeInspectorPlugin({ 
-            bundler: 'webpack',
-            behavior: {
-              enable: true,
-              enableFloatingBall: true  // Optional: enable floating ball
-            }
-          }));
-          return config;
-        },
-      },
-    };
-    ```
+**With webpack:**
 
-  </details>
+```js
+// umi.config.js or umirc.js
+import { defineConfig } from '@umijs/max';
+import { codeInspectorPlugin } from 'code-inspector-plugin';
 
-  <details>
-    <summary>Click to expand configuration about: <b>next.js</b></summary>
-
-  - For next.js(<= 14.x):
-
-    ```js
-    // next.config.js
-    const { codeInspectorPlugin } = require('code-inspector-plugin');
-
-    const nextConfig = {
-      webpack: (config, { dev, isServer }) => {
-        config.plugins.push(codeInspectorPlugin({ 
-          bundler: 'webpack',
-          behavior: {
-            enable: true,
-            enableFloatingBall: true  // Optional: enable floating ball
-          }
-        }));
-        return config;
-      },
-    };
-
-    module.exports = nextConfig;
-    ```
-
-  - For next.js(15.0.x ~ 15.2.x):
-
-    ```js
-    import type { NextConfig } from 'next';
-    import { codeInspectorPlugin } from 'code-inspector-plugin';
-
-    const nextConfig: NextConfig = {
-      experimental: {
-        turbo: {
-          rules: codeInspectorPlugin({
-            bundler: 'turbopack',
-            behavior: {
-              enable: true,
-              enableFloatingBall: true  // Optional: enable floating ball
-            }
-          }),
-        },
-      },
-    };
-
-    export default nextConfig;
-    ```
-
-  - For next.js(>= 15.3.x):
-
-    ```js
-    // next.config.js
-    import type { NextConfig } from 'next';
-    import { codeInspectorPlugin } from 'code-inspector-plugin';
-
-    const nextConfig: NextConfig = {
-      turbopack: {
-        rules: codeInspectorPlugin({
-          bundler: 'turbopack',
-          behavior: {
-            enable: true,
-            enableFloatingBall: true  // Optional: enable floating ball
-          }
-        }),
-      },
-    };
-
-    export default nextConfig;
-    ```
-
-  </details>
-
-  <details>
-    <summary>Click to expand configuration about: <b>umi.js</b></summary>
-
-  - With webpack:
-
-    ```js
-    // umi.config.js or umirc.js
-    import { defineConfig } from '@umijs/max';
-    import { codeInspectorPlugin } from 'code-inspector-plugin';
-
-    export default defineConfig({
-      chainWebpack(memo) {
-        memo.plugin('code-inspector-plugin').use(
-          codeInspectorPlugin({
-            bundler: 'webpack',
-            behavior: {
-              enable: true,
-              enableFloatingBall: true  // Optional: enable floating ball
-            }
-          })
-        );
-      },
-      // other config
-    });
-    ```
-
-  - With mako:
-
-    ```ts
-    // .umirc.ts
-    import { defineConfig } from 'umi';
-    import { codeInspectorPlugin } from 'code-inspector-plugin';
-
-    export default defineConfig({
-      // other config...
-      mako: {
-        plugins: [
-          codeInspectorPlugin({
-            bundler: 'mako',
-            behavior: {
-              enable: true,
-              enableFloatingBall: true  // Optional: enable floating ball
-            }
-          }),
-        ],
-      },
-    });
-    ```
-
-  </details>
-
-  <details>
-    <summary>Click to expand configuration about: <b>astro</b></summary>
-
-  ```js
-  // astro.config.mjs
-  import { defineConfig } from 'astro/config';
-  import { codeInspectorPlugin } from 'code-inspector-plugin';
-
-  export default defineConfig({
-    vite: {
-      plugins: [codeInspectorPlugin({ 
-        bundler: 'vite',
+export default defineConfig({
+  chainWebpack(memo) {
+    memo.plugin('code-inspector-plugin').use(
+      codeInspectorPlugin({
+        bundler: 'webpack',
         behavior: {
           enable: true,
           enableFloatingBall: true  // Optional: enable floating ball
         }
-      })],
-    },
-  });
-  ```
+      })
+    );
+  },
+});
+```
 
-  </details>
+**With mako:**
 
-- 2.Using the function
+```ts
+// .umirc.ts
+import { defineConfig } from 'umi';
+import { codeInspectorPlugin } from 'code-inspector-plugin';
 
-  Now you can enjoy using it!~
+export default defineConfig({
+  mako: {
+    plugins: [
+      codeInspectorPlugin({
+        bundler: 'mako',
+        behavior: {
+          enable: true,
+          enableFloatingBall: true  // Optional: enable floating ball
+        }
+      }),
+    ],
+  },
+});
+```
 
-  **With floating ball mode enabled:**
-  - A draggable floating ball appears on your page
-  - Click the ball to switch between "Copy Path" and "Open Editor" modes
-  - In "Copy Path" mode: Click any element to copy its source path
-  - In "Open Editor" mode: Click any element to open it in your IDE
+</details>
 
-  **Traditional keyboard mode:**
-  When pressing the combination keys on the page, moving the mouse over the page will display a mask layer on the DOM with relevant information. Clicking will automatically open the IDE and position the cursor to the corresponding code location. (The default combination keys for Mac are `Option + Shift`; for Windows, it's `Alt + Shift`, and the browser console will output related combination key prompts)
+<details>
+<summary>Click to expand configuration for: <b>astro</b></summary>
 
-  <img src="https://cdn.jsdelivr.net/gh/zh-lx/static-img/code-inspector/console-success.png" width="700px" />
+```js
+// astro.config.mjs
+import { defineConfig } from 'astro/config';
+import { codeInspectorPlugin } from 'code-inspector-plugin';
+
+export default defineConfig({
+  vite: {
+    plugins: [codeInspectorPlugin({ 
+      bundler: 'vite',
+      behavior: {
+        enable: true,
+        enableFloatingBall: true  // Optional: enable floating ball
+      }
+    })],
+  },
+});
+```
+
+</details>
+
+## 🎮 How to Use
+
+### With Floating Ball Mode (New!)
+When `enableFloatingBall: true` is configured:
+
+1. A **draggable floating ball** appears on your page
+2. **Click the ball** to switch between modes:
+   - 📋 **Copy Path Mode** (Blue) - Click elements to copy their source file path
+   - 📝 **Open Editor Mode** (Green) - Click elements to open them in your IDE
+3. **Drag the ball** anywhere on your screen for convenience
+4. Your preferences (position and mode) are saved automatically
+
+### Traditional Keyboard Mode
+When using keyboard shortcuts:
+
+1. Press the combination keys (`Option + Shift` on Mac, `Alt + Shift` on Windows)
+2. Move your mouse over any element to see its source information
+3. Click to open the element in your IDE at the exact line
+
+<img src="https://cdn.jsdelivr.net/gh/zh-lx/static-img/code-inspector/console-success.png" width="700px" />
+
+## 🔧 Configuration Options
+
+```js
+{
+  bundler: 'vite',              // Required: 'vite' | 'webpack' | 'rspack' | ...
+  behavior: {
+    enable: true,                // Enable the plugin
+    enableFloatingBall: true,    // Enable floating ball UI (new feature!)
+    locate: true,                // Show element location on hover
+    copy: true,                  // Allow copying file path
+  },
+  hotKeys: ['altKey', 'shiftKey'], // Customize keyboard shortcuts
+  showSwitch: true,             // Show toggle switch in dev tools
+  autoToggle: true,             // Auto-enable in development
+  hideConsole: false,           // Hide console hints
+  dev: true,                    // Enable in development mode
+  enforce: 'pre',               // Plugin enforce timing
+  importClient: 'es6',          // Import syntax: 'es6' | 'code'
+  escapeTags: [],               // Tags to ignore
+  pathFormat: ['relative', 'absolute'], // Path format in tooltip
+  includeUrl: /\.(vue|jsx|tsx)$/, // Files to include
+  excludeUrl: /node_modules/,  // Files to exclude
+}
+```
+
+## 📦 Package Ecosystem
+
+### Official Packages
+- **code-inspector-plugin** - Main plugin package
+- **@code-inspector/core** - Core functionality
+- **@code-inspector/vite** - Vite integration
+- **@code-inspector/webpack** - Webpack integration
+- **@code-inspector/esbuild** - Esbuild integration
+
+### Enhanced Packages (with Floating Ball)
+- **@neurora/code-inspector-plugin** - Enhanced main plugin with floating ball
+- **@neurora/code-inspector-core** - Enhanced core with floating ball support
+- **@neurora/code-inspector-vite** - Enhanced Vite integration
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
 
 ## 👨‍💻 Contributors
 
-Special thanks to the contributors of this project:<br />
+Special thanks to the contributors of this project:
 
 <img src="https://contrib.rocks/image?repo=zh-lx/code-inspector" height="40" />
 
@@ -513,6 +545,10 @@ For Chinese users, you can join the QQ group `769748484` or add the author's Wei
 ## 💖 Sponsor
 
 Sponsoring this project can help the author create better. If you are willing, thanks for sponsoring me through [here](https://inspector.fe-dev.cn/en/more/sponsor.html).
+
+## 📄 License
+
+MIT © [zh-lx](https://github.com/zh-lx)
 
 ## Star History
 
