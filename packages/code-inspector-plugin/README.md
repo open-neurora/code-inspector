@@ -1,16 +1,16 @@
 <div align="center">
-<img src="https://github.com/zh-lx/code-inspector/assets/73059627/842c3e88-dca7-4743-854c-d61093d3d34f" width="160px" style="margin-bottom: 12px;" />
+<img src="https://github.com/open-neurora/code-inspector/assets/73059627/842c3e88-dca7-4743-854c-d61093d3d34f" width="160px" style="margin-bottom: 12px;" />
 
 <p align="center">
   <h2>code-inspector</h2>
   <a href="https://inspector.fe-dev.cn">中文文档</a> | <a href="https://inspector.fe-dev.cn/en">Documentation</a>
 </p>
 
-[![NPM version](https://img.shields.io/npm/v/code-inspector-plugin.svg)](https://www.npmjs.com/package/code-inspector-plugin)
-[![GITHUB star](https://img.shields.io/github/stars/zh-lx/code-inspector?style=flat&label=%E2%AD%90%EF%B8%8F%20stars)](https://github.com/zh-lx/code-inspector)
-[![NPM Downloads](https://img.shields.io/npm/dm/code-inspector-plugin.svg)](https://npmcharts.netlify.app/compare/code-inspector-plugin?minimal=true)
-[![MIT-license](https://img.shields.io/npm/l/code-inspector.svg)](https://opensource.org/licenses/MIT)
-[![GITHUB-language](https://img.shields.io/github/languages/top/zh-lx/code-inspector?logoColor=purple&color=purple)](https://github.com/zh-lx/code-inspector)
+[![NPM version](https://img.shields.io/npm/v/@neurora/code-inspector-plugin.svg)](https://www.npmjs.com/package/@neurora/code-inspector-plugin)
+[![GITHUB star](https://img.shields.io/github/stars/open-neurora/code-inspector?style=flat&label=%E2%AD%90%EF%B8%8F%20stars)](https://github.com/open-neurora/code-inspector)
+[![NPM Downloads](https://img.shields.io/npm/dm/@neurora/code-inspector-plugin.svg)](https://npmcharts.netlify.app/compare/@neurora/code-inspector-plugin?minimal=true)
+[![MIT-license](https://img.shields.io/npm/l/@neurora/code-inspector-plugin.svg)](https://opensource.org/licenses/MIT)
+[![GITHUB-language](https://img.shields.io/github/languages/top/open-neurora/code-inspector?logoColor=purple&color=purple)](https://github.com/open-neurora/code-inspector)
 
 </div>
 
@@ -528,11 +528,11 @@ Contributions are welcome! Please feel free to submit a Pull Request. For major 
 
 Special thanks to the contributors of this project:
 
-<img src="https://contrib.rocks/image?repo=zh-lx/code-inspector" height="40" />
+<img src="https://contrib.rocks/image?repo=open-neurora/code-inspector" height="40" />
 
 ## 📧 Communication and Feedback
 
-For any usage issues, please leave a message below my [Twitter](https://twitter.com/zhulxing312147) post or [submit an issue](https://github.com/zh-lx/code-inspector/issues) on Github.
+For any usage issues, please leave a message below my [Twitter](https://twitter.com/zhulxing312147) post or [submit an issue](https://github.com/open-neurora/code-inspector/issues) on Github.
 
 For Chinese users, you can join the QQ group `769748484` or add the author's WeiXin account `zhoulx1688888` for consultation and feedback:
 
@@ -552,4 +552,4 @@ MIT © [zh-lx](https://github.com/zh-lx)
 
 ## Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=zh-lx/code-inspector&type=Date)](https://www.star-history.com/#zh-lx/code-inspector&Date)
+[![Star History Chart](https://api.star-history.com/svg?repos=open-neurora/code-inspector&type=Date)](https://www.star-history.com/#open-neurora/code-inspector&Date)
