@@ -1,10 +1,10 @@
 {
   "name": "@neurora/code-inspector-plugin",
-  "version": "1.3.4",
+  "version": "1.3.6",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "typings": "./types/index.d.ts",
-  "repository": "git@github.com:zh-lx/code-inspector.git",
+  "repository": "git@github.com:open-neurora/code-inspector.git",
   "author": "zh-lx <18366276315@163.com>",
   "license": "MIT",
   "scripts": {
@@ -49,12 +49,12 @@
     "inspect"
   ],
   "bugs": {
-    "url": "https://github.com/zh-lx/code-inspector/issues"
+    "url": "https://github.com/open-neurora/code-inspector/issues"
   },
   "dependencies": {
     "chalk": "4.1.1",
-    "@neurora/code-inspector-core": "^1.3.1",
-    "@neurora/code-inspector-vite": "^1.3.1",
+    "@neurora/code-inspector-core": "^1.3.3",
+    "@neurora/code-inspector-vite": "^1.3.3",
     "@code-inspector/webpack": "^1.2.7",
     "@code-inspector/esbuild": "^1.2.7",
     "@code-inspector/turbopack": "^1.2.7",
